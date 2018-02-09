@@ -1,6 +1,8 @@
 /**
  * BMP-related data types based on Microsoft's own.
+ * Adapted from https://github.com/cs50/problems/archive/whodunit.zip.
  */
+
 
 #include <stdint.h>
 
