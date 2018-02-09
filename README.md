@@ -3,9 +3,10 @@ Creates a prime number from a bmp
 ## Getting Started
 To compile: make
 ### Prerequisites
-To build the project you need the [GMP](https://gmplib.org/) library.
+To build the project you need the [GMP](https://gmplib.org/) library. https://gmplib.org/manual/Installing-GMP.html
 
-Download the lastest release of GMP from: https://gmplib.org/ as tar.xz.
+Download the latest release of GMP from: https://gmplib.org/ as tar.xz.
+
 Extract it via 
 ```
 tar -xf gmp-*.*.*.tar.xz
