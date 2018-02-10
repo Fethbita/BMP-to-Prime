@@ -83,7 +83,7 @@ int main (int argc, char *argv[])
 	fclose(inptr);
 
 	char *bmp_topdown;
-	if (bi.biHeight < 0)
+	if (bi.biHeight > 0)
 	{
 		bmp_topdown = (char*)malloc(bmp_size + 1);
 		if (bmp_topdown == NULL)
