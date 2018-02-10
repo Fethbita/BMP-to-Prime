@@ -6,18 +6,18 @@
 
 int main (int argc, char *argv[])
 {
-    // ensure proper usage
+	// ensure proper usage
 	if (argc != 3)
 	{
 		fprintf(stderr, "Usage: %s infile outfile\n", argv[0]);
 		return 1;
 	}
 
-    // remember filenames
+	// remember filenames
 	char *infile = argv[1];
 	char *outfile = argv[2];
 
-    // open input file 
+	// open input file 
 	FILE *inptr = fopen(infile, "r");
 	if (inptr == NULL)
 	{
@@ -25,11 +25,11 @@ int main (int argc, char *argv[])
 		return 2;
 	}
 
-    // read infile's BITMAPFILEHEADER
+	// read infile's BITMAPFILEHEADER
 	BITMAPFILEHEADER bf;
 	fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr);
 
-    // read infile's BITMAPINFOHEADER
+	// read infile's BITMAPINFOHEADER
 	BITMAPINFOHEADER bi;
 	fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
 
@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
 		return 3;
 	}
 
-    // determine padding for scanlines
+	// determine padding for scanlines
 	int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
 	int bmp_size = bi.biWidth * abs(bi.biHeight);
@@ -56,7 +56,7 @@ int main (int argc, char *argv[])
 
 	bmp_numbers[bmp_size] = '\0';
 
-    // iterate over infile's scanlines
+	// iterate over infile's scanlines
 	for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
 	{
 		// iterate over pixels in scanline
@@ -79,7 +79,7 @@ int main (int argc, char *argv[])
 		// skip over padding, if any
 		fseek(inptr, padding, SEEK_CUR);
 	}
-    // close infile
+	// close infile
 	fclose(inptr);
 
 	char *bmp_topdown;
@@ -139,7 +139,7 @@ int main (int argc, char *argv[])
 	}
 
 	valid = gmp_fprintf(outptr, "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"utf-8\">\n  <title>%s</title>\n  <meta name=\"author\" content=\"\">\n  <meta name=\"description\" content=\"\">\n  <style>\n  @font-face {\n    font-family: Square;\n	 src: url('./square.woff');\n  }\n	</style>\n	<script>\n	(function(window, document, undefined) {\n	  function addNewlines(str, lngth) {\n		var result = '';\n		while (str.length > 0) {\n		  result += str.substring(0, lngth) + '<br>';\n		   str = str.substring(lngth);\n	  }\n	   return result;\n    }\n	  var prime = '%Zd';\n	  window.onload = init;\n\n    function init() {\n		var element = document.getElementById('prime');\n	   element.innerHTML = addNewlines(prime, %d) + '<br> is a %d digit number and a prime.';\n    }\n\n  })(window, document, undefined);\n  </script>\n</head>\n\n<body>\n  <div id=\"prime\" style=\"font-family: Square; font-size:9px;\"></div>\n</body>\n</html>", outfile, next_prime, bi.biWidth, mpz_sizeinbase(next_prime, 10));
-    // close outfile
+	// close outfile
 	fclose(outptr);
 	mpz_clear(next_prime);
 	if (valid == -1)
